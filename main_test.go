@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	traefikplugin_hc_index "github.com/rjop-hccgt/traefik-plugin"
@@ -21,12 +22,25 @@ func TestHcIndex(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost", nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	handler.ServeHTTP(recorder, req)
+	assertIndex(t, req)
 
-	log.Printf("Got header: %v", req.URL.Path)
+	req, err = http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost/folder1", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler.ServeHTTP(recorder, req)
+	assertIndex(t, req)
+}
 
+func assertIndex(t *testing.T, req *http.Request) {
+	t.Helper()
+	log.Printf("Validating %v", req.URL.Path)
+	if !strings.HasSuffix(req.URL.Path, "/index.html") {
+		t.Errorf("invalid path value: %s", req.URL.Path)
+	}
 }

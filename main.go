@@ -5,11 +5,11 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"strings"
 )
 
 // Config the plugin configuration.
-type Config struct {
-}
+type Config struct{}
 
 // CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
@@ -32,9 +32,17 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 func (a *HcIndex) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	log.Printf("Got serve request: %v", req.URL.Path)
-	req.URL.Path += "/index.html"
+	if strings.HasSuffix(req.URL.Path, "/") {
+		req.URL.Path += "index.html"
+	} else {
+		req.URL.Path += "/index.html"
+	}
 	if req.URL.RawPath != "" {
-		req.URL.RawPath += "/index.html"
+		if strings.HasSuffix(req.URL.RawPath, "/") {
+			req.URL.RawPath += "index.html"
+		} else {
+			req.URL.RawPath += "/index.html"
+		}
 	}
 	req.RequestURI = req.URL.RequestURI()
 	a.next.ServeHTTP(rw, req)
