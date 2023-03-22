@@ -2,8 +2,8 @@ displayName: Index Plugin
 type: middleware
 iconPath: .assets/icon.png
 
-import: github.com/rjop-hccgt/traefik-plugin
+import: github.com/rjop-hccgt/traefikpluginhcindex
 
 summary: 'Add index.html to route'
 
-testData:
+testData: {}
