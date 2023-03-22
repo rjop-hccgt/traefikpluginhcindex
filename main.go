@@ -32,9 +32,9 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 func (a *HcIndex) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	log.Printf("Got serve request: %v", req.URL.Path)
-	req.URL.Path = req.URL.Path + "/index.html"
+	req.URL.Path += "/index.html"
 	if req.URL.RawPath != "" {
-		req.URL.RawPath = req.URL.RawPath + "/index.html"
+		req.URL.RawPath += "/index.html"
 	}
 	req.RequestURI = req.URL.RequestURI()
 	a.next.ServeHTTP(rw, req)
