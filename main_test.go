@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	traefikplugin_hc_index "github.com/rjop-hccgt/traefik-plugin"
+	traefikplugin_hc_index "github.com/rjop-hccgt/traefikpluginhcindex"
 )
 
 func TestHcIndex(t *testing.T) {

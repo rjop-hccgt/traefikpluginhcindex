@@ -1,3 +1,3 @@
-module github.com/rjop-hccgt/traefik-plugin
+module github.com/rjop-hccgt/traefikpluginhcindex
 
 go 1.19
