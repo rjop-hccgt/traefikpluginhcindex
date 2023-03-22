@@ -1,3 +1,3 @@
-module github.com/traefik/plugindemo
+module github.com/rjop-hccgt/traefik-plugin
 
 go 1.19
