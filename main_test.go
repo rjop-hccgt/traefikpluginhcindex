@@ -1,4 +1,4 @@
-package traefikplugin_hc_index_test
+package traefikpluginhcindex_test
 
 import (
 	"context"
