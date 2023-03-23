@@ -31,7 +31,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *HcIndex) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	log.Printf("Got serve request: %v", req.URL.Path)
+	log.Printf("Got serve request: %v:%v %v", req.RemoteAddr, req.URL.Path, req.Header.Get("x-forwarded-for"))
 	if strings.HasSuffix(req.URL.Path, "/") {
 		req.URL.Path += "index.html"
 	} else {
