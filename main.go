@@ -3,7 +3,6 @@ package traefikpluginhcindex
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -31,8 +30,6 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *HcIndex) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	log.Printf(">>>>> req: %v  <<<<<<< ", req)
-
 	if strings.HasSuffix(req.URL.Path, "/") {
 		req.URL.Path += "index.html"
 	} else {
@@ -40,11 +37,7 @@ func (a *HcIndex) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	if req.URL.RawPath != "" {
-		if strings.HasSuffix(req.URL.RawPath, "/") {
-			req.URL.RawPath += "index.html"
-		} else {
-			req.URL.RawPath += "/index.html"
-		}
+		req.URL.RawPath = req.URL.Path
 	}
 	req.RequestURI = req.URL.RequestURI()
 	a.next.ServeHTTP(rw, req)
