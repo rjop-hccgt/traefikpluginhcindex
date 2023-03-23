@@ -37,6 +37,7 @@ func (a *HcIndex) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	} else {
 		req.URL.Path += "/index.html"
 	}
+	rw.Header().Add("host", req.Host)
 	if req.URL.RawPath != "" {
 		if strings.HasSuffix(req.URL.RawPath, "/") {
 			req.URL.RawPath += "index.html"
