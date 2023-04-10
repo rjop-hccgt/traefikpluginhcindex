@@ -30,14 +30,17 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *HcIndex) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	if strings.HasSuffix(req.URL.Path, "/") {
-		req.URL.Path += "index.html"
-	} else {
-		req.URL.Path += "/index.html"
-	}
+	pos := strings.LastIndex(req.URL.Path, ".")
+	if pos == -1 {
+		if strings.HasSuffix(req.URL.Path, "/") {
+			req.URL.Path += "index.html"
+		} else {
+			req.URL.Path += "/index.html"
+		}
 
-	if req.URL.RawPath != "" {
-		req.URL.RawPath = req.URL.Path
+		if req.URL.RawPath != "" {
+			req.URL.RawPath = req.URL.Path
+		}
 	}
 	req.RequestURI = req.URL.RequestURI()
 	a.next.ServeHTTP(rw, req)

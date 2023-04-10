@@ -35,7 +35,12 @@ func TestHcIndex(t *testing.T) {
 	}
 	handler.ServeHTTP(recorder, req)
 	assertIndex(t, req)
-	assertHost(t, req)
+	req, err = http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost/folder1/style.css", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	handler.ServeHTTP(recorder, req)
+	assertNonIndex(t, req)
 }
 
 func assertIndex(t *testing.T, req *http.Request) {
@@ -46,7 +51,10 @@ func assertIndex(t *testing.T, req *http.Request) {
 	}
 }
 
-func assertHost(t *testing.T, req *http.Request) {
+func assertNonIndex(t *testing.T, req *http.Request) {
 	t.Helper()
-	log.Printf("Validating host %v", req.Host)
+	log.Printf("Validating %v", req.URL.Path)
+	if strings.HasSuffix(req.URL.Path, "/index.html") {
+		t.Errorf("invalid path value: %s", req.URL.Path)
+	}
 }
