@@ -268,3 +268,5 @@ In order for your plugin to be successfully imported by Plugins Catalog, consult
 - There must be a valid `go.mod` file at the root of your project.
 - Your plugin must be versioned with a git tag.
 - If you have package dependencies, they must be vendored and added to your GitHub repository.
+
+
